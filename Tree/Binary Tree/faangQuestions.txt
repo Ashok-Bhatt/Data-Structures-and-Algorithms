@@ -1,0 +1,11 @@
+1. Height of binary tree:
+    Link: https://practice.geeksforgeeks.org/problems/height-of-binary-tree/1?page=1&difficulty[]=0&category[]=Tree&sortBy=submissions
+
+2. Width of binary tree:
+    Link: 
+
+3. Check for balance tree:
+    Link: https://practice.geeksforgeeks.org/problems/check-for-balanced-tree/1?page=1&difficulty[]=0&category[]=Tree&sortBy=submissions
+
+4. Identical Binary Tree:
+    link: 

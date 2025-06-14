@@ -13,8 +13,7 @@ int main(){
     vector<int> ans;
     vector<int> inDegree(n, 0);
     queue<int> q;
-    vector<bool> visited(n, false);
-
+    
     for (int i=0; i<e; i++){
         int u, v;
         cin >> u >> v;
@@ -26,11 +25,6 @@ int main(){
             inDegree[neighbour]++;
         }
     }
-
-    // for (int i=0; i<n; i++){
-    //     cout << inDegree[i] << " ";
-    // }
-    // cout << endl;
 
     for (int i=0; i<n; i++){
         if (inDegree[i] == 0){

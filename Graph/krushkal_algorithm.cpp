@@ -17,7 +17,7 @@ public:
         if (node == parent[node]){
             return node;
         } else {
-            return parent[node] = findUltimateParent(parent[node]);
+            return parent[node] = findUltimateParent(parent[node]); 
         }
     }
 
@@ -25,10 +25,10 @@ public:
         int upar_u = findUltimateParent(u), upar_v = findUltimateParent(v);
         if (size[upar_u] >= size[upar_v]){
             parent[upar_v] = upar_u;
-            upar_u = upar_u + upar_v;
+            size[upar_u] = size[upar_u] + size[upar_v];
         } else {
             parent[upar_u] = upar_v;
-            upar_v = upar_v + upar_u;
+            size[upar_v] = size[upar_v] + size[upar_u];
         }
     }
 };

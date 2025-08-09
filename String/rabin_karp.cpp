@@ -1,58 +1,64 @@
 #include <bits/stdc++.h>
-#define MOD int(1e9+7)
 using namespace std;
 
-long long findHash(string str, int n, int base){
+#define MOD 1000000007LL
 
-    long long temp = str[0]-'a', multiplier = 1;
-    for (int i=1; i<=n; i++){
-        temp = (temp*base*multiplier + str[i]-'a')%MOD;
-        multiplier = multiplier*base;
+long long hashValue(string &x, int n, int RADIX)
+{
+    long long ans = 0, factor = 1;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        ans = (ans + ((x[i] - 'a') * factor) % MOD) % MOD;
+        factor = (factor * RADIX) % MOD;
     }
-    return temp;
+    return ans % MOD;
 }
 
-bool isMatch(string x, string y, int index, int n){
-    for (int i=0; i<n; i++){
-        if (x[i+index] != y[i]){
-            return false;
+bool match(string &occurrence, string &pattern)
+{
+
+    int n = occurrence.size(), m = pattern.size();
+    if (m > n)
+        return false;
+
+    int RADIX = 26;
+    long long maxValue = 1;
+    long long pattHash = hashValue(pattern, m, RADIX);
+    long long occHash = 0;
+
+    for (int i = 0; i < m; i++){
+        maxValue = (maxValue * RADIX) % MOD;
+    }
+
+    for (int i=0; i<=n-m; i++){
+        if (i==0){
+            occHash = hashValue(occurrence, m, RADIX);
+        } else {
+            occHash = ((occHash*RADIX) % MOD - ((occurrence[i-1]-'a')*maxValue) % MOD + (occurrence[i+m-1]-'a') + MOD) % MOD;
         }
-    }
-    return true;
-}
 
-int solve(string haystack, string needle){
-    int m = haystack.size(), n = needle.size();
-    if (n > m) return -1;
-
-    int base = 26;
-    long long needleHash = findHash(needle, n-1, base);
-    long long hayStackHash = findHash(haystack, n-1, base);
-    long long power = 1;
-
-    for (int i=1; i<n; i++){
-        power = (power*base) % MOD;
-    }
-
-    if (needleHash == hayStackHash){
-        if (isMatch(haystack, needle, n, 0)){
-            return 0;
-        }
-    }
-
-    for (int i=n; i<m; i++){
-        hayStackHash = ((hayStackHash - (haystack[i-n]-'a')*power + MOD)*base + (haystack[i]-'a')) % MOD;
-        if (needleHash == hayStackHash){
-            if (isMatch(haystack, needle, n, i-n+1)){
-                return i-n+1;
+        if (occHash == pattHash){
+            bool matched = true;
+            for (int j=0; j<m; j++){
+                if (occurrence[i+j] != pattern[j]){
+                    matched = false;
+                    break;
+                }
             }
+            if (matched) return true;
         }
     }
 
-    return -1;
+    return false;
 }
 
-int main(){
-    string haystack="abcdfgyukhhjgfchmjytfcghjkhgfhjklkjhgklhgfjhklo;uyguigfhjjhbgiyftvhjboighgjvkyulbhvfgykugiunytdtjyjuklhjyuioytukhikljhfygefgh", needle="gyukhhjgfchmjytfcghjkhgfhjklkjhgklhgfjhklo;uyguigfhjjhbgiyftvhjboighgjvkyulbhvfgykugiunytdtjyjuklhjyuioytukhikl";
-    cout << solve(haystack, needle) << endl;
+int main()
+{
+    string pattern = "reek", occurrence = "geeksforgeeks";
+    bool result = match(occurrence, pattern);
+    if (result)
+        cout << "Match Found" << endl;
+    else
+        cout << "Match Not Found" << endl;
+    return 0;
 }

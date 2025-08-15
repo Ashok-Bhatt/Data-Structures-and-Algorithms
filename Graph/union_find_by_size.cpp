@@ -2,10 +2,9 @@
 using namespace std;
 
 class DisJointSet{
-private:
+public:
     vector<int> size, parent;
 
-public:
     DisJointSet(int n){
         size.resize(n, 1);
         parent.resize(n);
@@ -24,12 +23,13 @@ public:
 
     void unionBySize(int u, int v){
         int upar_u = findUltimateParent(u), upar_v = findUltimateParent(v);
+        if (upar_u == upar_v) return;
         if (size[upar_u] >= size[upar_v]){
             parent[upar_v] = upar_u;
-            size[upar_v] = size[upar_v] + size[upar_u];
+            size[upar_u] = size[upar_v] + size[upar_u];
         } else {
             parent[upar_u] = upar_v;
-            size[upar_u] = size[upar_u] + size[upar_v];
+            size[upar_v] = size[upar_u] + size[upar_v];
         }
     }
 };
